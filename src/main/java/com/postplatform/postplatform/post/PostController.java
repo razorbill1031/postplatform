@@ -1,11 +1,8 @@
 package com.postplatform.postplatform.post;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -17,6 +14,7 @@ public class PostController {
         this.postService = postService;
     }
 
+    //게시글 작성
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Post createPost(@RequestBody CreatePostRequest request) {
@@ -27,5 +25,17 @@ public class PostController {
     }
 
     public record CreatePostRequest(String title, String content) {
+    }
+
+    //게시글 목록 조회
+    @GetMapping
+    public List<Post> getposts() {
+        return postService.getPosts();
+    }
+
+    //게시글 상세 목록 조회
+    @GetMapping("/{id}")
+    public Post getPost(@PathVariable Long id) {
+        return postService.getPost(id);
     }
 }

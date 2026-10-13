@@ -2,6 +2,7 @@ package com.postplatform.postplatform.post;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 public class PostService {
@@ -12,9 +13,23 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
+    //게시글 작성
     @Transactional
     public Post createPost(String title, String content) {
         Post post = new Post(title, content);
         return postRepository.save(post);
+    }
+
+    //게시글 목록 조회
+    @Transactional(readOnly = true)
+    public List<Post> getPosts() {
+        return postRepository.findAll();
+    }
+
+    //게시글 상세 목록 조회
+    @Transactional(readOnly = true)
+    public Post getPost(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
     }
 }
