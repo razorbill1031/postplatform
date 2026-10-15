@@ -32,4 +32,24 @@ public class PostService {
         return postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
     }
+
+    //게시글 수정
+    @Transactional
+    public Post updatePost(Long id, String title, String content) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+
+        post.update(title, content);
+
+        return post;
+    }
+
+    //게시글 삭제
+    @Transactional
+    public void deletePost(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+
+        postRepository.delete(post);
+    }
 }

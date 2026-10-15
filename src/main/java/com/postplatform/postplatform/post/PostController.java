@@ -38,4 +38,26 @@ public class PostController {
     public Post getPost(@PathVariable Long id) {
         return postService.getPost(id);
     }
+
+    //게시글 수정
+    @PutMapping("/{id}")
+    public Post updatePost(
+            @PathVariable Long id,
+            @RequestBody UpdatePostRequest request) {
+        return postService.updatePost(
+                id,
+                request.title(),
+                request.content()
+        );
+    }
+
+    public record UpdatePostRequest(String title, String content) {
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+    }
 }
