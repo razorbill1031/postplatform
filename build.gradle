@@ -29,6 +29,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.security:spring-security-crypto'
 }
 
 tasks.named('test') {
