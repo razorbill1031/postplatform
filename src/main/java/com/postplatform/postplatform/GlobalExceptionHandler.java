@@ -1,6 +1,7 @@
 package com.postplatform.postplatform;
 
 import com.postplatform.postplatform.user.DuplicateEmailException;
+import com.postplatform.postplatform.user.InvalidLoginException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,6 +30,15 @@ public class GlobalExceptionHandler {
                 .getDefaultMessage();
 
         return new ErrorResponse(message);
+    }
+
+    //로그인 실패
+    @ExceptionHandler(InvalidLoginException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleInvalidLogin(
+            InvalidLoginException exception
+    ) {
+        return new ErrorResponse(exception.getMessage());
     }
 
     public record ErrorResponse(String message) {

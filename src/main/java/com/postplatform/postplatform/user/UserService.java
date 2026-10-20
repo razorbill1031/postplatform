@@ -29,4 +29,18 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    //로그인
+    @Transactional(readOnly = true)
+    public User login(String email, String password) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new InvalidLoginException());
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new InvalidLoginException();
+        }
+
+        return user;
+    }
 }

@@ -21,6 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    //회원가입
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public SignupResponse signup(@Valid @RequestBody SignupRequest request) {
@@ -52,6 +53,38 @@ public class UserController {
     }
 
     public record SignupResponse(
+            Long id,
+            String email,
+            String nickname
+    ) {
+    }
+
+    //로그인
+    @PostMapping("/login")
+    public LoginResponse login(@Valid @RequestBody LoginRequest request) {
+        User user = userService.login(
+                request.email(),
+                request.password()
+        );
+
+        return new LoginResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getNickname()
+        );
+    }
+
+    public record LoginRequest(
+            @NotBlank(message = "이메일은 필수 입력입니다.")
+            @Email(message = "올바른 이메일 형식이 아닙니다.")
+            String email,
+
+            @NotBlank(message = "비밀번호는 필수 입력입니다.")
+            String password
+    ) {
+    }
+
+    public record LoginResponse(
             Long id,
             String email,
             String nickname
