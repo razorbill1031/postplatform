@@ -1,10 +1,14 @@
 package com.postplatform.postplatform.post;
 
+import com.postplatform.postplatform.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 
 @Getter
@@ -20,12 +24,18 @@ public class Post {
 
     private String content;
 
+    //게시글과 회원 연결
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
+
     protected Post() {
     }
 
-    public Post(String title, String content) {
+    public Post(String title, String content, User author) {
         this.title = title;
         this.content = content;
+        this.author = author;
     }
 
     //게시글 수정

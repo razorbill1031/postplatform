@@ -1,5 +1,6 @@
 package com.postplatform.postplatform.post;
 
+import com.postplatform.postplatform.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -15,8 +16,8 @@ public class PostService {
 
     //게시글 작성
     @Transactional
-    public Post createPost(String title, String content) {
-        Post post = new Post(title, content);
+    public Post createPost(String title, String content, User author) {
+        Post post = new Post(title, content, author);
         return postRepository.save(post);
     }
 
