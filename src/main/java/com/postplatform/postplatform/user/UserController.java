@@ -108,4 +108,10 @@ public class UserController {
                 user.getNickname()
         );
     }
+
+    //로그아웃
+    @PostMapping("/logout")
+    public void logout(HttpSession session) {
+        session.invalidate();
+    }
 }
