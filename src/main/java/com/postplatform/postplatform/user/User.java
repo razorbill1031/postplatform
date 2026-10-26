@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Entity
@@ -20,7 +21,9 @@ public class User {
     @Column(nullable = false, unique = true) //Null허용 x, 중복 메일 방지
     private String email;
 
+    @JsonIgnore //암호 노출X
     private String password;
+
     private String nickname;
 
     protected User() {

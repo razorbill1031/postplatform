@@ -60,11 +60,19 @@ public class PostController {
     @PutMapping("/{id}")
     public Post updatePost(
             @PathVariable Long id,
-            @RequestBody UpdatePostRequest request) {
+            @RequestBody UpdatePostRequest request, HttpSession session) {
+
+        Long loginUserId = (Long) session.getAttribute("loginUserId");
+
+        if (loginUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+
         return postService.updatePost(
                 id,
                 request.title(),
-                request.content()
+                request.content(),
+                loginUserId
         );
     }
 
@@ -74,7 +82,14 @@ public class PostController {
     // 게시글 삭제
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    public void deletePost(@PathVariable Long id, HttpSession session) {
+
+        Long loginUserId = (Long) session.getAttribute("loginUserId");
+
+        if (loginUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+
+        postService.deletePost(id, loginUserId);
     }
 }
